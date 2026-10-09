@@ -1,0 +1,991 @@
+{
+  "info": {
+    "name": "crocheterias-maho-api",
+    "description": "Pruebas de las reglas de negocio. Correr en orden con la base vacia.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "01 Crear cliente",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/clientes",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "clientes"
+          ]
+        },
+        "description": "Esperado: 201 Created",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Ana\",\n  \"correo\": \"ana@mail.com\",\n  \"direccion\": {\n    \"calle\": \"Cra 45 10-20\",\n    \"ciudad\": \"Medellín\",\n    \"codigoPostal\": \"050001\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "02 Cliente con correo repetido",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 409\", function () {",
+              "    pm.response.to.have.status(409);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/clientes",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "clientes"
+          ]
+        },
+        "description": "Esperado: 409 correo repetido",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Ana\",\n  \"correo\": \"ana@mail.com\",\n  \"direccion\": {\n    \"calle\": \"Cra 45 10-20\",\n    \"ciudad\": \"Medellín\",\n    \"codigoPostal\": \"050001\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "03 Crear categoria",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/categorias",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "categorias"
+          ]
+        },
+        "description": "Esperado: 201 Created",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Amigurumi\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "04 Crear producto",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/productos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "productos"
+          ]
+        },
+        "description": "Esperado: 201 Created",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Osito\",\n  \"precio\": 45000,\n  \"categoria\": {\n    \"id\": 1\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "05 Producto con precio cero",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/productos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "productos"
+          ]
+        },
+        "description": "Esperado: 400 precio",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Gato\",\n  \"precio\": 0,\n  \"categoria\": {\n    \"id\": 1\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "06 Producto con categoria inexistente",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/productos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "productos"
+          ]
+        },
+        "description": "Esperado: 404 categoria",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Gato\",\n  \"precio\": 30000,\n  \"categoria\": {\n    \"id\": 999\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "07 Listar productos por categoria",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/productos?categoria=amigurumi",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "productos"
+          ],
+          "query": [
+            {
+              "key": "categoria",
+              "value": "amigurumi"
+            }
+          ]
+        },
+        "description": "Esperado: 200 OK"
+      }
+    },
+    {
+      "name": "08 Rango de precio invertido",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/productos/precio?min=50000&max=10000",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "productos",
+            "precio"
+          ],
+          "query": [
+            {
+              "key": "min",
+              "value": "50000"
+            },
+            {
+              "key": "max",
+              "value": "10000"
+            }
+          ]
+        },
+        "description": "Esperado: 400 rango"
+      }
+    },
+    {
+      "name": "09 Crear perfil",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/clientes/1/perfil",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "clientes",
+            "1",
+            "perfil"
+          ]
+        },
+        "description": "Esperado: 201 Created",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"biografia\": \"Tejedora\",\n  \"fotoUrl\": \"https://foto.jpg\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "10 Perfil repetido",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 409\", function () {",
+              "    pm.response.to.have.status(409);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/clientes/1/perfil",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "clientes",
+            "1",
+            "perfil"
+          ]
+        },
+        "description": "Esperado: 409 ya tiene perfil",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"biografia\": \"Tejedora\",\n  \"fotoUrl\": \"https://foto.jpg\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "11 Perfil de cliente inexistente",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/clientes/999/perfil",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "clientes",
+            "999",
+            "perfil"
+          ]
+        },
+        "description": "Esperado: 404 cliente",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"biografia\": \"Tejedora\",\n  \"fotoUrl\": \"https://foto.jpg\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "11a Crear segundo cliente",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/clientes",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "clientes"
+          ]
+        },
+        "description": "Esperado: 201 Created",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Luis\",\n  \"correo\": \"luis@mail.com\",\n  \"direccion\": {\n    \"calle\": \"Cra 45 10-20\",\n    \"ciudad\": \"Medellín\",\n    \"codigoPostal\": \"050001\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "11b Perfil con foto sin https",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/clientes/2/perfil",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "clientes",
+            "2",
+            "perfil"
+          ]
+        },
+        "description": "Esperado: 400 foto sin https",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"biografia\": \"Tejedor\",\n  \"fotoUrl\": \"foto.jpg\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "12 Listar pedidos por estado",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/pedidos?estado=PENDIENTE",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "pedidos"
+          ],
+          "query": [
+            {
+              "key": "estado",
+              "value": "PENDIENTE"
+            }
+          ]
+        },
+        "description": "Esperado: 200 OK"
+      }
+    },
+    {
+      "name": "13 Crear taller",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/talleres",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "talleres"
+          ]
+        },
+        "description": "Esperado: 201 Created",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Amigurumi básico\",\n  \"fecha\": \"2026-12-01T10:00:00\",\n  \"cupoMaximo\": 2,\n  \"precio\": 80000\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "14 Inscribir a Ana",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/talleres/1/inscripciones",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "talleres",
+            "1",
+            "inscripciones"
+          ]
+        },
+        "description": "Esperado: 201 Created",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"participanteNombre\": \"Ana\",\n  \"participanteEmail\": \"ana@mail.com\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "15 Inscripcion repetida",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 409\", function () {",
+              "    pm.response.to.have.status(409);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/talleres/1/inscripciones",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "talleres",
+            "1",
+            "inscripciones"
+          ]
+        },
+        "description": "Esperado: 409 ya inscrita",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"participanteNombre\": \"Ana\",\n  \"participanteEmail\": \"ana@mail.com\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "16 Inscribir a Luis",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/talleres/1/inscripciones",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "talleres",
+            "1",
+            "inscripciones"
+          ]
+        },
+        "description": "Esperado: 201 Created",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"participanteNombre\": \"Luis\",\n  \"participanteEmail\": \"luis@mail.com\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "17 Taller sin cupo",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/talleres/1/inscripciones",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "talleres",
+            "1",
+            "inscripciones"
+          ]
+        },
+        "description": "Esperado: 400 sin cupo",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"participanteNombre\": \"Sara\",\n  \"participanteEmail\": \"sara@mail.com\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "18 Crear taller pasado",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/talleres",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "talleres"
+          ]
+        },
+        "description": "Esperado: 201 Created",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Amigurumi avanzado\",\n  \"fecha\": \"2025-01-01T10:00:00\",\n  \"cupoMaximo\": 2,\n  \"precio\": 80000\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "19 Inscribir a taller pasado",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/talleres/2/inscripciones",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "talleres",
+            "2",
+            "inscripciones"
+          ]
+        },
+        "description": "Esperado: 400 taller pasado",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"participanteNombre\": \"Luis\",\n  \"participanteEmail\": \"luis@mail.com\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "20 Taller inexistente",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/talleres/999",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "talleres",
+            "999"
+          ]
+        },
+        "description": "Esperado: 404 Not Found"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ]
+}
