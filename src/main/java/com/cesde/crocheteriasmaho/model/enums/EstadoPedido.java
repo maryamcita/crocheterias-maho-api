@@ -1,9 +1,9 @@
 package com.cesde.crocheteriasmaho.model.enums;
 
-
 public enum EstadoPedido {
     PENDIENTE,
-    PROCESANDO,
+    EN_PROCESO,
+    TEJIENDO,
     ENVIADO,
     ENTREGADO,
     CANCELADO

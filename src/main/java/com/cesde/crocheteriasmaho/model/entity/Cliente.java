@@ -1,17 +1,31 @@
 package com.cesde.crocheteriasmaho.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import lombok.Data;
+import com.cesde.crocheteriasmaho.model.base.BaseEntity;
+import com.cesde.crocheteriasmaho.model.embeddable.Direccion;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import java.util.List;
 
 @Entity
-@Data
-public class Cliente {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Table(name = "clientes")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+public class Cliente extends BaseEntity {
+
+    @Column(nullable = false, length = 100)
     private String nombre;
-    private String email;
+
+    @Column(nullable = false, unique = true, length = 150)
+    private String correo;
+
+    @Embedded
+    private Direccion direccion;
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private List<Pedido> pedidos;
 }
+

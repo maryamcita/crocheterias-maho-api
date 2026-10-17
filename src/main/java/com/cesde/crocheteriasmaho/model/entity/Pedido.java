@@ -1,34 +1,47 @@
 package com.cesde.crocheteriasmaho.model.entity;
 
-import com.cesde.crocheteriasmaho.model.entity.Cliente;
+import com.cesde.crocheteriasmaho.model.base.BaseEntity;
+import com.cesde.crocheteriasmaho.model.embeddable.Direccion;
 import com.cesde.crocheteriasmaho.model.enums.EstadoPedido;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-@Data
-public class Pedido {
+@Table(name = "pedidos")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+public class Pedido extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @Column(nullable = false)
     private LocalDateTime fechaPedido;
 
-    @ManyToOne
-    private Cliente cliente;
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal total;
 
     @Enumerated(EnumType.STRING)
-    private EstadoPedido estadoPedido;
+    @Column(nullable = false, length = 20)
+    private EstadoPedido estado;
 
     @Embedded
     private Direccion direccionEnvio;
 
-    public enum EstadoPedido {
-        PENDIENTE,
-        EN_PROCESO,
-        ENTREGADO,
-        CANCELADO
-    }
+    @ManyToOne
+    @JoinColumn(name = "cliente_id", nullable = false)
+    private Cliente cliente;
+
+    @ManyToMany
+    @JoinTable(
+        name = "pedido_producto",
+        joinColumns = @JoinColumn(name = "pedido_id"),
+        inverseJoinColumns = @JoinColumn(name = "producto_id")
+    )
+    private List<Producto> productos;
 }
