@@ -1,11 +1,14 @@
 package com.cesde.crocheteriasmaho.model.entity;
 
 import com.cesde.crocheteriasmaho.model.base.BaseEntity;
+import com.cesde.crocheteriasmaho.model.embeddable.Direccion;
 import com.cesde.crocheteriasmaho.model.enums.EstadoPedido;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -16,16 +19,19 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 public class Pedido extends BaseEntity {
-<<<<<<< HEAD
-=======
 
->>>>>>> fe7712d5133bc93aa01b9cb78db02c31bc95f005
-    @Column(nullable = false, precision = 10)
+    @Column(nullable = false)
+    private LocalDateTime fechaPedido;
+
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal total;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private EstadoPedido estado;
+
+    @Embedded
+    private Direccion direccionEnvio;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
@@ -39,7 +45,3 @@ public class Pedido extends BaseEntity {
     )
     private List<Producto> productos;
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> fe7712d5133bc93aa01b9cb78db02c31bc95f005
